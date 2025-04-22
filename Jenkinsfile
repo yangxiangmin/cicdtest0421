@@ -1,7 +1,7 @@
 pipeline {
     agent any
     environment {
-        REPO_URL = "git@github.com:yourusername/math_ops.git"
+        REPO_URL = "git@github.com:yangxiangmin/cicdtest0421.git"
         BUILD_DIR = "build"
         ARTIFACTS_DIR = "artifacts"
     }
@@ -77,12 +77,12 @@ pipeline {
                         sshPublisher(
                             publishers: [
                                 sshPublisherDesc(
-                                    configName: 'prod_server',
+                                    configName: 'proenv',
                                     transfers: [
                                         sshTransfer(
                                             sourceFiles: '*.tar.gz',
                                             remoteDirectory: '/opt/math_ops',
-                                            execCommand: 'cd /opt/math_ops && tar -xzvf *.tar.gz'
+                                            execCommand: 'cd /opt/math_ops && tar -xzvf *.tar.gz' && rm -f math_ops-*.tar.gz
                                         )
                                     ]
                                 )
