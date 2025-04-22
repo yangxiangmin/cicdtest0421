@@ -82,7 +82,7 @@ pipeline {
                                         sshTransfer(
                                             sourceFiles: '*.tar.gz',
                                             remoteDirectory: '/opt/math_ops',
-                                            execCommand: 'cd /opt/math_ops && tar -xzvf *.tar.gz' && rm -f math_ops-*.tar.gz
+                                            execCommand: 'cd /opt/math_ops && tar -xzvf *.tar.gz && rm -f math_ops-*.tar.gz'
                                         )
                                     ]
                                 )
