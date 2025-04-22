@@ -18,12 +18,12 @@ pipeline {
         // 2. 编译
         stage('Build') {
             steps {
-                sh """
+                sh '''
                     mkdir -p ${env.BUILD_DIR}
                     cd ${env.BUILD_DIR}
                     cmake -DCMAKE_CXX_STANDARD=11 ..
                     make
-                """
+                '''
                 sh 'echo "✅ 编译完成"'
             }
         }
@@ -31,10 +31,10 @@ pipeline {
         // 3. 单元测试（简单运算）
         stage('Unit Test') {
             steps {
-                sh """
+                sh '''
                     cd ${env.BUILD_DIR}
                     ./unit_tests --gtest_output="xml:unit-test-results.xml"
-                """
+                '''
                 junit "${env.BUILD_DIR}/unit-test-results.xml"
                 sh 'echo "✅ 单元测试通过"'
             }
@@ -43,10 +43,10 @@ pipeline {
         // 4. 系统测试（混合运算）
         stage('System Test') {
             steps {
-                sh """
+                sh '''
                     cd ${env.BUILD_DIR}
                     ./system_tests --gtest_output="xml:system-test-results.xml"
-                """
+                '''
                 junit "${env.BUILD_DIR}/system-test-results.xml"
                 sh 'echo "✅ 系统测试通过"'
             }
@@ -55,11 +55,11 @@ pipeline {
         // 5. 打包
         stage('Package') {
             steps {
-                sh """
+                sh '''
                     mkdir -p ${env.ARTIFACTS_DIR}
                     cp ${env.BUILD_DIR}/libmath_ops.a ${env.ARTIFACTS_DIR}/
                     tar -czvf math_ops-$(date +%Y%m%d).tar.gz ${env.ARTIFACTS_DIR}
-                """
+                '''
                 archiveArtifacts artifacts: '*.tar.gz'
                 sh 'echo "✅ 打包完成"'
             }
